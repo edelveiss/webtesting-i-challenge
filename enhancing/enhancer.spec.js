@@ -1,7 +1,43 @@
 //const enhancer = require('./enhancer.js');
-const { success, fail, repair, get } = require("./enhancer.js");
+const { success, fail, repair, get, validItem } = require("./enhancer.js");
 // test away!
 describe("enhancer functions", () => {
+  // -----------------valid item testing------------------------------ -
+  describe("validItem()", () => {
+    it("should throw an exception if the enhancement or  are durability property are not numbers", () => {
+      expect(() => {
+        validItem({ name: "John", enhancement: "someWords", durability: 10 });
+      }).toThrow(); // a string
+      expect(() => {
+        validItem({ name: "John", enhancement: 6, durability: "someWords" });
+      }).toThrow(); // a string
+      expect(() => {
+        validItem({ name: "John", enhancement: NaN, durability: 10 });
+      }).toThrow(); // NaN
+      expect(() => {
+        validItem({ name: "John", enhancement: 6, durability: NaN });
+      }).toThrow(); // NaN
+    });
+    it("should throw an exception if the enhancement or  are durability property are not in a desireable inteval", () => {
+      expect(() => {
+        validItem({ name: "John", enhancement: -2, durability: 10 });
+      }).toThrow(); // <0
+      expect(() => {
+        validItem({ name: "John", enhancement: 30, durability: 40 });
+      }).toThrow(); // >20
+      expect(() => {
+        validItem({ name: "John", enhancement: 15, durability: -5 });
+      }).toThrow(); // <0
+      expect(() => {
+        validItem({ name: "John", enhancement: 6, durability: 120 });
+      }).toThrow(); // >100
+    });
+    it("should throw an exception if the name is not a string", () => {
+      expect(() => {
+        validItem({ name: 5, enhancement: 6, durability: 10 });
+      }).toThrow(); // not string
+    });
+  });
   // -----------------repair------------------------------ -
   describe("repair()", () => {
     it("should return new item with restored item.durability to 100", () => {
