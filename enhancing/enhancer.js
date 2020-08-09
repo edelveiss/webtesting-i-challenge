@@ -42,7 +42,15 @@ function get(item) {
 }
 
 function validItem(item) {
-  if (
+  if (typeof item !== "object") {
+    throw new Error("invalid parameter. It is not an object");
+  } else if (
+    item.name === undefined ||
+    item.enhancement === undefined ||
+    item.durability === undefined
+  ) {
+    throw new Error("invalid parameter. It does not have required fileds");
+  } else if (
     typeof item.enhancement !== "number" ||
     Number.isNaN(item.enhancement) ||
     item.enhancement > 20 ||

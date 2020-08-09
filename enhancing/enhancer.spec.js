@@ -4,6 +4,25 @@ const { success, fail, repair, get, validItem } = require("./enhancer.js");
 describe("enhancer functions", () => {
   // -----------------valid item testing------------------------------ -
   describe("validItem()", () => {
+    it("should throw an exception if a parameter is not an object", () => {
+      expect(() => {
+        validItem(5);
+      }).toThrow(); // a number
+      expect(() => {
+        validItem("John");
+      }).toThrow(); // a string
+    });
+    it("should throw an exception if a parameter  does not have required fileds", () => {
+      expect(() => {
+        validItem({ enhancement: 7, durability: 10 });
+      }).toThrow(); // without a name filed
+      expect(() => {
+        validItem({ name: "John", durability: 10 });
+      }).toThrow(); // a without a enhancement filed
+      expect(() => {
+        validItem({ name: "John", enhancement: 5 });
+      }).toThrow(); // a without a durability filed
+    });
     it("should throw an exception if the enhancement or  are durability property are not numbers", () => {
       expect(() => {
         validItem({ name: "John", enhancement: "someWords", durability: 10 });
