@@ -69,6 +69,17 @@ describe("enhancer functions", () => {
       item = { name: "John", enhancement: 0, durability: 0 };
       expect(repair(item).durability).toBe(100);
     });
+    it("should return new item ", () => {
+      let item = { name: "John", enhancement: 0, durability: 10 };
+      expect(repair(item)).toEqual({
+        name: "John",
+        enhancement: 0,
+        durability: 100,
+      });
+      item = { name: "John", enhancement: 0, durability: 0 };
+      expect(repair(item)).not.toEqual(item);
+      //expect(repair(item)).toEqual(item);
+    });
   });
 
   //------------------success--------------------------------
@@ -93,8 +104,8 @@ describe("enhancer functions", () => {
   //------------------fail--------------------------------
   describe("fail()", () => {
     it("should return a new item. If the item's enhancement is less than 15, the durability of the item is decreased by 5.", () => {
-      let item = { name: "John", enhancement: 4, durability: 20 };
-      expect(fail(item).durability).toBe(15);
+      let item = { name: "John", enhancement: 4, durability: 15 };
+      expect(fail(item).durability).toBe(10);
     });
     it("should return a new item.If the item's enhancement is 15 or more, the durability of the item is decreased by 10.", () => {
       item = { name: "John", enhancement: 20, durability: 100 };
